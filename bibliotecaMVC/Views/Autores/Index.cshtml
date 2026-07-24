@@ -24,6 +24,7 @@
             <!-- Encabezado oscuro -->
             <thead class="table-dark text-center">
                 <tr>
+                    <th>ID</>
                     <th>Nombre</th>
                     <th>Apellido</th>
                     <th>Nacionalidad</th>
@@ -36,6 +37,7 @@
                 @foreach (var autor in Model)
                 {
                     <tr>
+                        <td class="text-center">@autor.Id</td>
                         <td>@autor.Nombre</td>
                         <td>@autor.Apellido</td>
                         <td>@autor.Nacionalidad</td>
