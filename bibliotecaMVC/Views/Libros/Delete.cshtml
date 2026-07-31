@@ -1,0 +1,39 @@
+@using bibliotecaMVC.Models
+@model Libro
+
+@{
+    ViewData["Title"] = "Eliminar Libro";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-3 text-danger">Eliminar Libro</h2>
+
+    <p>¿Está seguro que desea eliminar este libro?</p>
+
+    <div class="card shadow-sm" style="max-width: 500px;">
+
+        @if (!string.IsNullOrEmpty(Model.ImagenNombre))
+        {
+            <img src="~/images/@Model.ImagenNombre" class="card-img-top" alt="@Model.Titulo" style="max-height: 250px; object-fit: cover;" />
+        }
+
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-4">Título</dt>
+                <dd class="col-sm-8">@Model.Titulo</dd>
+
+                <dt class="col-sm-4">Autor</dt>
+                <dd class="col-sm-8">@Model.Autor</dd>
+
+                <dt class="col-sm-4">Género</dt>
+                <dd class="col-sm-8">@Model.Genero</dd>
+            </dl>
+
+            <form asp-action="Delete" method="post">
+                <input type="hidden" asp-for="Id" />
+                <button type="submit" class="btn btn-danger">Eliminar</button>
+                <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</div>

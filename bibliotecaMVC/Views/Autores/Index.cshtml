@@ -1,35 +1,26 @@
-﻿@using bibliotecaMVC.Models
+@using bibliotecaMVC.Models
 @model IEnumerable<Autor>
 
 @{
     ViewData["Title"] = "Lista de Autores";
 }
 
-<!-- Centra el contenido y da margen superior (Margin Top 4) -->
 <div class="container mt-4">
 
-    <!-- Título principal -->
     <h2 class="mb-3 text-primary">Listado de Autores</h2>
 
-    <!-- table-responsive se ajusta a cualcuier pantalla-->
     <div class="table-responsive">
-
-        <!--  CLASES DE TABLA DE BOOTSTRAP -->
-        <!-- 'table': Aplica los estilos base de Bootstrap -->
-        <!-- 'table-striped': Pinta las filas de forma intercalada (una gris clara, una blanca) -->
-        <!-- 'table-hover': Resalta la fila sobre la que pasas el cursor del mouse -->
-        <!-- 'table-bordered': Le pone bordes limpios a las celdas -->
         <table class="table table-striped table-hover table-bordered shadow-sm">
 
-            <!-- Encabezado oscuro -->
             <thead class="table-dark text-center">
                 <tr>
-                    <th>ID</>
+                    <th>ID</th>
                     <th>Nombre</th>
                     <th>Apellido</th>
                     <th>Nacionalidad</th>
                     <th>Fecha de Nacimiento</th>
                     <th>Estado</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
 
@@ -43,18 +34,20 @@
                         <td>@autor.Nacionalidad</td>
                         <td class="text-center">@autor.FechaNacimiento.ToString("yyyy-MM-dd")</td>
 
-                        <!-- Pequeñas etiquetas de color -->
                         <td class="text-center">
                             @if (autor.Activo)
                             {
-                                <!--  Etiqueta verde para "Sí" -->
                                 <span class="badge bg-success">Activo</span>
                             }
                             else
                             {
-                                <!-- Etiqueta roja para "No" -->
                                 <span class="badge bg-danger">Inactivo</span>
                             }
+                        </td>
+
+                        <td class="text-center">
+                            <a asp-action="Edit" asp-route-id="@autor.Id" class="btn btn-sm btn-warning">Editar</a>
+                            <a asp-action="Delete" asp-route-id="@autor.Id" class="btn btn-sm btn-danger">Eliminar</a>
                         </td>
                     </tr>
                 }
