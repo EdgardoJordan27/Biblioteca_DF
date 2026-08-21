@@ -1,3 +1,21 @@
+:root {
+    --lib-primary: #7B2D3F;
+    --lib-primary-dark: #5E2230;
+    --lib-primary-light: #A85068;
+    --lib-primary-subtle: #F1DEE3;
+    --lib-accent: #C08A28;
+    --lib-accent-dark: #96691C;
+    --lib-accent-subtle: #F5E6C8;
+    --lib-forest: #3F5A44;
+    --lib-forest-subtle: #E4E9DE;
+    --lib-terracotta: #B5502F;
+    --lib-terracotta-subtle: #EFDACE;
+    --lib-ink: #2E2A26;
+    --lib-paper: #FAF6F0;
+    --lib-paper-alt: #F1E9DD;
+    --lib-border: #E3D7C4;
+}
+
 html {
     font-size: 14px;
 }
@@ -6,10 +24,6 @@ html {
     html {
         font-size: 16px;
     }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 html {
@@ -29,6 +43,61 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
     text-align: start;
 }
+
+/* =========================================================
+   Reemplazo de la paleta azul/morada por defecto de Bootstrap
+   por la paleta borgoña + dorado de Biblioteca Virtual
+   ========================================================= */
+
+.btn-primary {
+    --bs-btn-bg: var(--lib-primary);
+    --bs-btn-border-color: var(--lib-primary);
+    --bs-btn-hover-bg: var(--lib-primary-dark);
+    --bs-btn-hover-border-color: var(--lib-primary-dark);
+    --bs-btn-active-bg: var(--lib-primary-dark);
+    --bs-btn-active-border-color: var(--lib-primary-dark);
+    --bs-btn-disabled-bg: var(--lib-primary);
+    --bs-btn-disabled-border-color: var(--lib-primary);
+    --bs-btn-focus-shadow-rgb: 123, 45, 63;
+}
+
+.bg-primary {
+    background-color: var(--lib-primary) !important;
+}
+
+.bg-primary-subtle {
+    background-color: var(--lib-primary-subtle) !important;
+}
+
+.text-primary, .text-primary-emphasis {
+    color: var(--lib-primary) !important;
+}
+
+a {
+    color: var(--lib-primary);
+}
+
+    a:hover {
+        color: var(--lib-primary-dark);
+    }
+
+.btn-outline-primary {
+    --bs-btn-color: var(--lib-primary);
+    --bs-btn-border-color: var(--lib-primary);
+    --bs-btn-hover-bg: var(--lib-primary);
+    --bs-btn-hover-border-color: var(--lib-primary);
+    --bs-btn-active-bg: var(--lib-primary-dark);
+    --bs-btn-active-border-color: var(--lib-primary-dark);
+}
+
+.navbar-brand {
+    color: var(--lib-primary) !important;
+    font-weight: 600;
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem var(--lib-primary-light);
+}
 /* =========================================================
    Página "Acerca de" (About) - Biblioteca Virtual
    HTML5 semántico + CSS3 personalizado + Diseño Responsivo
@@ -38,7 +107,7 @@ body {
     text-align: center;
     padding: 2rem 1rem;
     margin-bottom: 2rem;
-    background: linear-gradient(135deg, #0d6efd, #6610f2);
+    background: linear-gradient(135deg, var(--lib-primary), var(--lib-terracotta));
     color: #fff;
     border-radius: 0.5rem;
 }
@@ -53,8 +122,8 @@ body {
 }
 
     .about-section h2 {
-        color: #0d6efd;
-        border-bottom: 2px solid #0d6efd;
+        color: var(--lib-primary);
+        border-bottom: 2px solid var(--lib-accent);
         padding-bottom: 0.4rem;
         margin-bottom: 1rem;
     }
@@ -65,9 +134,10 @@ body {
     gap: 1.25rem;
 }
 
+/* Componente reutilizable 1: tarjeta de servicio con borde de color por categoría */
 .service-item {
-    background-color: #f8f9fa;
-    border-left: 4px solid #0d6efd;
+    background-color: var(--lib-paper-alt);
+    border-left: 4px solid var(--lib-primary);
     border-radius: 0.4rem;
     padding: 1.25rem;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -75,16 +145,29 @@ body {
 
     .service-item:hover {
         transform: translateY(-4px);
-        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+        box-shadow: 0 0.5rem 1rem rgba(46, 42, 38, 0.15);
     }
 
     .service-item h3 {
         margin-top: 0;
-        color: #212529;
+        color: var(--lib-ink);
     }
 
+    .service-item.accent-gold {
+        border-left-color: var(--lib-accent);
+    }
+
+    .service-item.accent-forest {
+        border-left-color: var(--lib-forest);
+    }
+
+    .service-item.accent-terracotta {
+        border-left-color: var(--lib-terracotta);
+    }
+
+/* Componente reutilizable 2: cuadro de datos rápidos */
 .about-facts {
-    background-color: #eef4ff;
+    background-color: var(--lib-primary-subtle);
     border-radius: 0.5rem;
     padding: 1.25rem 1.5rem;
     margin-bottom: 2rem;
@@ -98,7 +181,7 @@ body {
 
     .about-facts li {
         padding: 0.35rem 0;
-        border-bottom: 1px solid #d7e3fb;
+        border-bottom: 1px solid var(--lib-border);
     }
 
         .about-facts li:last-child {
@@ -139,4 +222,133 @@ body {
     .service-item {
         padding: 1rem;
     }
+}
+
+/* =========================================================
+   Página Inicio (Home) - Biblioteca Virtual
+   Flexbox (hero, pills, carrusel) + CSS Grid (tarjetas)
+   ========================================================= */
+
+.home-hero {
+    background: linear-gradient(135deg, var(--lib-primary), var(--lib-terracotta));
+}
+
+.home-hero .btn-light {
+    color: var(--lib-primary-dark);
+    font-weight: 600;
+}
+
+/* Fila de estadísticas con Flexbox */
+.stat-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 3rem;
+}
+
+.stat-pill {
+    flex: 1 1 200px;
+    text-align: center;
+    padding: 1rem;
+    border-radius: 0.4rem;
+    font-weight: 600;
+    box-shadow: 0 0.125rem 0.35rem rgba(46, 42, 38, 0.08);
+}
+
+.stat-pill--primary {
+    background-color: var(--lib-primary-subtle);
+    color: var(--lib-primary-dark);
+}
+
+.stat-pill--gold {
+    background-color: var(--lib-accent-subtle);
+    color: var(--lib-accent-dark);
+}
+
+.stat-pill--forest {
+    background-color: var(--lib-forest-subtle);
+    color: var(--lib-forest);
+}
+
+.stat-pill--terracotta {
+    background-color: var(--lib-terracotta-subtle);
+    color: var(--lib-terracotta);
+}
+
+/* Grid de tarjetas de servicio del Home */
+.home-services-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    margin-bottom: 3rem;
+}
+
+@media (min-width: 576px) {
+    .home-services-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 992px) {
+    .home-services-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+.home-service-card {
+    background-color: var(--lib-paper-alt);
+    border-radius: 0.5rem;
+    padding: 1.5rem 1.25rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0.125rem 0.35rem rgba(46, 42, 38, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+    .home-service-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 0.5rem 1rem rgba(46, 42, 38, 0.15);
+    }
+
+.home-service-badge {
+    align-self: center;
+    background-color: var(--lib-primary);
+    color: #fff;
+    border-radius: 50rem;
+    padding: 0.4rem 0.9rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.home-service-card p {
+    flex-grow: 1;
+}
+
+.home-service-card .btn {
+    margin-top: auto;
+}
+
+/* Diapositivas del carrusel de libros destacados */
+.carousel-slide {
+    height: 320px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #fff;
+    padding: 0 1rem;
+}
+
+.carousel-slide--one {
+    background: var(--lib-primary);
+}
+
+.carousel-slide--two {
+    background: var(--lib-terracotta);
+}
+
+.carousel-slide--three {
+    background: var(--lib-forest);
 }
