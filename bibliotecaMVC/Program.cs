@@ -1,7 +1,14 @@
+using bibliotecaMVC.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Registro de la dependencia IAutorService -> AutorService con ciclo de vida Scoped.
+// Para el Reto (Actividad 5), basta con cambiar AutorService por AutorServiceJson aquí;
+// el AutoresController no necesita ninguna modificación.
+builder.Services.AddScoped<IAutorService, AutorService>();
 
 var app = builder.Build();
 
