@@ -1,0 +1,45 @@
+﻿@using bibliotecaMVC.Models
+@model IEnumerable<Categoria>
+
+@{
+    ViewData["Title"] = "Lista de Categorías";
+}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="text-primary mb-0">Listado de Categorías</h2>
+        <a asp-action="Create" class="btn btn-success">Agregar Categoría</a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover table-bordered shadow-sm">
+
+            <thead class="table-dark text-center">
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var categoria in Model)
+                {
+                    <tr>
+                        <td class="text-center">@categoria.Id</td>
+                        <td>@categoria.Nombre</td>
+                        <td>@categoria.Descripcion</td>
+
+                        <td class="text-center">
+                            <a asp-action="Edit" asp-route-id="@categoria.Id" class="btn btn-sm btn-warning">Editar</a>
+                            <a asp-action="Delete" asp-route-id="@categoria.Id" class="btn btn-sm btn-danger">Eliminar</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>

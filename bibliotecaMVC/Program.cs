@@ -10,6 +10,9 @@ builder.Services.AddControllersWithViews();
 // el AutoresController no necesita ninguna modificación.
 builder.Services.AddScoped<IAutorService, AutorService>();
 
+// Registro del servicio de Categorías, implementado con ADO.NET puro (sin EF Core).
+builder.Services.AddScoped<ICategoriaService, CategoriaService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -31,6 +34,5 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
-
 
 app.Run();
