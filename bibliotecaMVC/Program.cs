@@ -1,9 +1,16 @@
 using bibliotecaMVC.Services;
+using Microsoft.EntityFrameworkCore;
+using bibliotecaMVC.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Add Entity Framework services.
+builder.Services.AddDbContext<BibliotecaContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("BibliotecaConnection")));
+
 
 // Registro de la dependencia IAutorService -> AutorService con ciclo de vida Scoped.
 // Para el Reto (Actividad 5), basta con cambiar AutorService por AutorServiceJson aquí;

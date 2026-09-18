@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using bibliotecaMVC.Models;
+using bibliotecaMVC.Data;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
@@ -12,10 +14,12 @@ namespace bibliotecaMVC.Controllers
     public class LibrosController : Controller
     {
         private readonly IWebHostEnvironment _entorno;
+        private readonly BibliotecaContext _context;
 
-        public LibrosController(IWebHostEnvironment entorno)
+        public LibrosController(IWebHostEnvironment entorno, BibliotecaContext context)
         {
             _entorno = entorno;
+            _context = context;
         }
 
         // Lista estática para simular una base de datos en memoria.
@@ -29,9 +33,10 @@ namespace bibliotecaMVC.Controllers
         private static int siguienteId = 4;
 
         // GET: Libros
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View(Libros);
+            var libros = await _context.Libros.ToListAsync();
+            return View(libros);
         }
 
         // GET: Libros/Details/5
@@ -61,14 +66,14 @@ namespace bibliotecaMVC.Controllers
                 return View(libro);
             }
 
-            libro.Id = siguienteId++;
-
             if (Imagen != null && Imagen.Length > 0)
             {
                 libro.ImagenNombre = await GuardarImagenAsync(Imagen);
             }
 
-            Libros.Add(libro);
+            _context.Libros.Add(libro);
+            await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 
