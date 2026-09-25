@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using bibliotecaMVC.Models;
 using bibliotecaMVC.Data;
-using System.Collections.Generic;
-using System.Linq;
 using System.IO;
 using System.Threading.Tasks;
 using System;
@@ -22,16 +20,6 @@ namespace bibliotecaMVC.Controllers
             _context = context;
         }
 
-        // Lista estática para simular una base de datos en memoria.
-        private static List<Libro> Libros = new List<Libro>
-        {
-            new Libro { Id = 1, Titulo = "Cien años de soledad", Autor = "Gabriel García Márquez", Genero = "Realismo mágico", AnioPublicacion = 1967, Disponible = true, ImagenNombre = null },
-            new Libro { Id = 2, Titulo = "La casa de los espíritus", Autor = "Isabel Allende", Genero = "Novela", AnioPublicacion = 1982, Disponible = true, ImagenNombre = null },
-            new Libro { Id = 3, Titulo = "La ciudad y los perros", Autor = "Mario Vargas Llosa", Genero = "Novela", AnioPublicacion = 1963, Disponible = false, ImagenNombre = null }
-        };
-
-        private static int siguienteId = 4;
-
         // GET: Libros
         public async Task<IActionResult> Index()
         {
@@ -40,9 +28,9 @@ namespace bibliotecaMVC.Controllers
         }
 
         // GET: Libros/Details/5
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
-            var libro = Libros.FirstOrDefault(l => l.Id == id);
+            var libro = await _context.Libros.FindAsync(id);
             if (libro == null)
             {
                 return NotFound();
@@ -78,9 +66,9 @@ namespace bibliotecaMVC.Controllers
         }
 
         // GET: Libros/Edit/5
-        public IActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            var libro = Libros.FirstOrDefault(l => l.Id == id);
+            var libro = await _context.Libros.FindAsync(id);
             if (libro == null)
             {
                 return NotFound();
@@ -103,7 +91,7 @@ namespace bibliotecaMVC.Controllers
                 return View(libroEditado);
             }
 
-            var libro = Libros.FirstOrDefault(l => l.Id == id);
+            var libro = await _context.Libros.FindAsync(id);
             if (libro == null)
             {
                 return NotFound();
@@ -121,13 +109,16 @@ namespace bibliotecaMVC.Controllers
                 libro.ImagenNombre = await GuardarImagenAsync(Imagen);
             }
 
+            _context.Libros.Update(libro);
+            await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 
         // GET: Libros/Delete/5
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var libro = Libros.FirstOrDefault(l => l.Id == id);
+            var libro = await _context.Libros.FindAsync(id);
             if (libro == null)
             {
                 return NotFound();
@@ -138,12 +129,13 @@ namespace bibliotecaMVC.Controllers
         // POST: Libros/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var libro = Libros.FirstOrDefault(l => l.Id == id);
+            var libro = await _context.Libros.FindAsync(id);
             if (libro != null)
             {
-                Libros.Remove(libro);
+                _context.Libros.Remove(libro);
+                await _context.SaveChangesAsync();
             }
             return RedirectToAction(nameof(Index));
         }

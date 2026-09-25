@@ -6,34 +6,29 @@
 }
 
 <div class="container mt-4">
-    <h2 class="mb-3 text-primary">Detalle del Libro</h2>
+    <h2 class="catalog-heading mb-3">Detalle del libro</h2>
 
-    <div class="card shadow-sm" style="max-width: 500px;">
+    <div class="catalog-form" style="max-width: 500px;">
 
         @if (!string.IsNullOrEmpty(Model.ImagenNombre))
         {
-            <img src="~/images/@Model.ImagenNombre" class="card-img-top" alt="@Model.Titulo" style="max-height: 350px; object-fit: cover;" />
+            <img src="~/images/@Model.ImagenNombre" alt="@Model.Titulo" class="catalog-cover mb-3" style="width: 120px; height: 168px;" />
         }
 
-        <div class="card-body">
-            <h4 class="card-title">@Model.Titulo</h4>
-            <dl class="row">
-                <dt class="col-sm-4">Autor</dt>
-                <dd class="col-sm-8">@Model.Autor</dd>
+        <h3 class="catalog-title mb-2">@Model.Titulo</h3>
 
-                <dt class="col-sm-4">Género</dt>
-                <dd class="col-sm-8">@Model.Genero</dd>
+        <div class="catalog-meta mb-3">
+            <span>@Model.Autor</span>
+            <span>@Model.Genero</span>
+            <span>@Model.AnioPublicacion</span>
+        </div>
 
-                <dt class="col-sm-4">Año</dt>
-                <dd class="col-sm-8">@Model.AnioPublicacion</dd>
+        <span class="catalog-status @(Model.Disponible ? "" : "is-unavailable") mb-3">
+            @(Model.Disponible ? "Disponible" : "No disponible")
+        </span>
 
-                <dt class="col-sm-4">Estado</dt>
-                <dd class="col-sm-8">
-                    @(Model.Disponible ? "Disponible" : "No disponible")
-                </dd>
-            </dl>
-
-            <a asp-action="Index" class="btn btn-secondary">Volver al listado</a>
+        <div class="mt-3">
+            <a asp-action="Index" class="btn btn-outline-primary">Volver al listado</a>
         </div>
     </div>
 </div>

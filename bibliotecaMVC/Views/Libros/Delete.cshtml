@@ -6,34 +6,28 @@
 }
 
 <div class="container mt-4">
-    <h2 class="mb-3 text-danger">Eliminar Libro</h2>
+    <h2 class="catalog-heading mb-3" style="color: var(--lib-terracotta);">Eliminar libro</h2>
 
     <p>¿Está seguro que desea eliminar este libro?</p>
 
-    <div class="card shadow-sm" style="max-width: 500px;">
+    <div class="catalog-form" style="max-width: 500px; border-top-color: var(--lib-terracotta);">
 
         @if (!string.IsNullOrEmpty(Model.ImagenNombre))
         {
-            <img src="~/images/@Model.ImagenNombre" class="card-img-top" alt="@Model.Titulo" style="max-height: 250px; object-fit: cover;" />
+            <img src="~/images/@Model.ImagenNombre" alt="@Model.Titulo" class="catalog-cover mb-3" style="width: 100px; height: 140px;" />
         }
 
-        <div class="card-body">
-            <dl class="row">
-                <dt class="col-sm-4">Título</dt>
-                <dd class="col-sm-8">@Model.Titulo</dd>
+        <h3 class="catalog-title mb-2">@Model.Titulo</h3>
 
-                <dt class="col-sm-4">Autor</dt>
-                <dd class="col-sm-8">@Model.Autor</dd>
-
-                <dt class="col-sm-4">Género</dt>
-                <dd class="col-sm-8">@Model.Genero</dd>
-            </dl>
-
-            <form asp-action="Delete" method="post">
-                <input type="hidden" asp-for="Id" />
-                <button type="submit" class="btn btn-danger">Eliminar</button>
-                <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
-            </form>
+        <div class="catalog-meta mb-3">
+            <span>@Model.Autor</span>
+            <span>@Model.Genero</span>
         </div>
+
+        <form asp-action="Delete" method="post">
+            <input type="hidden" asp-for="Id" />
+            <button type="submit" class="btn" style="background-color: var(--lib-terracotta); color: #fff;">Eliminar</button>
+            <a asp-action="Index" class="btn btn-outline-primary">Cancelar</a>
+        </form>
     </div>
 </div>
