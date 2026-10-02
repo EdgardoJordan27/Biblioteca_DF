@@ -481,3 +481,109 @@ a {
         flex-basis: auto;
     }
 }
+/*Estilos de Autenticación (Login y Registro)*/
+
+.auth-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 2rem 0 3rem;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 440px;
+    background-color: var(--lib-paper-alt);
+    border: 1px solid var(--lib-border);
+    border-top: 4px solid var(--lib-primary);
+    padding: 2rem 1.75rem;
+    box-shadow: 0 0.35rem 1rem rgba(46, 42, 38, 0.08);
+}
+
+.auth-title {
+    margin-bottom: 0.25rem;
+}
+
+.auth-subtitle {
+    color: #6b6259;
+    margin-bottom: 1.5rem;
+}
+
+.auth-card .form-label {
+    font-weight: 600;
+    color: var(--lib-ink);
+}
+
+.auth-card .form-control {
+    background-color: #fff;
+    border-color: var(--lib-border);
+    padding: 0.6rem 0.75rem;
+}
+
+    .auth-card .form-control:focus {
+        border-color: var(--lib-primary-light);
+    }
+
+.auth-card .form-check-input:checked {
+    background-color: var(--lib-primary);
+    border-color: var(--lib-primary);
+}
+
+.auth-card .btn-primary {
+    padding: 0.6rem 1rem;
+    font-weight: 600;
+}
+
+.auth-field-error {
+    display: block;
+    margin-top: 0.3rem;
+    font-size: 0.875rem;
+    color: var(--lib-terracotta);
+}
+
+.auth-card .input-validation-error {
+    border-color: var(--lib-terracotta);
+}
+
+.auth-card .validation-summary-errors {
+    background-color: var(--lib-terracotta-subtle);
+    border: 1px solid var(--lib-terracotta);
+    border-left-width: 4px;
+    color: #7d3219;
+    padding: 0.7rem 1rem;
+    margin-bottom: 1.25rem;
+    font-size: 0.925rem;
+}
+
+    .auth-card .validation-summary-errors ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+.auth-card .validation-summary-valid {
+    display: none;
+}
+
+.auth-alert {
+    padding: 0.7rem 1rem;
+    margin-bottom: 1.25rem;
+    font-size: 0.925rem;
+    border-left-width: 4px;
+    border-left-style: solid;
+}
+
+.auth-alert-success {
+    background-color: var(--lib-forest-subtle);
+    border-color: var(--lib-forest);
+    color: var(--lib-forest);
+}
+
+.auth-footer {
+    margin: 1.5rem 0 0;
+    padding-top: 1rem;
+    border-top: 1px solid var(--lib-border);
+    text-align: center;
+    color: #6b6259;
+    font-size: 0.925rem;
+}
+

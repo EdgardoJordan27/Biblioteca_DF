@@ -1,0 +1,63 @@
+﻿@model LoginViewModel
+
+@{
+    ViewData["Title"] = "Iniciar sesión";
+}
+
+<div class="auth-wrapper">
+    <div class="auth-card">
+        <h2 class="catalog-heading auth-title">Iniciar sesión</h2>
+        <p class="auth-subtitle">Ingresa con tu usuario o tu correo electrónico.</p>
+
+        @if (TempData["Registro"] is string mensaje)
+        {
+            <div class="auth-alert auth-alert-success" role="status">@mensaje</div>
+        }
+
+        <form asp-action="Login" asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
+            <div asp-validation-summary="ModelOnly"></div>
+
+            <div class="mb-3">
+                <label asp-for="UsuarioOCorreo" class="form-label"></label>
+                <input asp-for="UsuarioOCorreo" class="form-control" autocomplete="username" autofocus />
+                <span asp-validation-for="UsuarioOCorreo" class="auth-field-error"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Password" class="form-label"></label>
+                <div class="input-group">
+                    <input asp-for="Password" class="form-control" autocomplete="current-password" />
+                    <button type="button" class="btn btn-outline-primary" id="togglePassword">Mostrar</button>
+                </div>
+                <span asp-validation-for="Password" class="auth-field-error"></span>
+            </div>
+
+            <div class="mb-4 form-check">
+                <input asp-for="Recordarme" class="form-check-input" />
+                <label asp-for="Recordarme" class="form-check-label"></label>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Entrar</button>
+        </form>
+
+        <p class="auth-footer">
+            ¿Todavía no tienes cuenta?
+            <a asp-action="Register">Regístrate</a>
+        </p>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        document.getElementById("togglePassword").addEventListener("click", function () {
+            var campo = document.getElementById("Password");
+            var oculto = campo.type === "password";
+            campo.type = oculto ? "text" : "password";
+            this.textContent = oculto ? "Ocultar" : "Mostrar";
+        });
+    </script>
+}

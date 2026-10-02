@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using bibliotecaMVC.Models;
 
 namespace bibliotecaMVC.Data
 {
-    public class BibliotecaContext : DbContext
+    public class BibliotecaContext : IdentityDbContext<IdentityUser>
     {
         public BibliotecaContext(DbContextOptions<BibliotecaContext> options) : base(options)
         {
