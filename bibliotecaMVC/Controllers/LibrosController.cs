@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,8 @@ using System;
 
 namespace bibliotecaMVC.Controllers
 {
+    // Consultar el catalogo requiere haber iniciado sesion
+    [Authorize]
     public class LibrosController : Controller
     {
         private readonly IWebHostEnvironment _entorno;
@@ -39,6 +42,7 @@ namespace bibliotecaMVC.Controllers
         }
 
         // GET: Libros/Create
+        [Authorize(Roles = Roles.GestionLibros)]
         public IActionResult Create()
         {
             return View();
@@ -47,6 +51,7 @@ namespace bibliotecaMVC.Controllers
         // POST: Libros/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = Roles.GestionLibros)]
         public async Task<IActionResult> Create(Libro libro, IFormFile? Imagen)
         {
             if (!ModelState.IsValid)
@@ -66,6 +71,7 @@ namespace bibliotecaMVC.Controllers
         }
 
         // GET: Libros/Edit/5
+        [Authorize(Roles = Roles.GestionLibros)]
         public async Task<IActionResult> Edit(int id)
         {
             var libro = await _context.Libros.FindAsync(id);
@@ -79,6 +85,7 @@ namespace bibliotecaMVC.Controllers
         // POST: Libros/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = Roles.GestionLibros)]
         public async Task<IActionResult> Edit(int id, Libro libroEditado, IFormFile? Imagen)
         {
             if (id != libroEditado.Id)
@@ -116,6 +123,7 @@ namespace bibliotecaMVC.Controllers
         }
 
         // GET: Libros/Delete/5
+        [Authorize(Roles = Roles.GestionLibros)]
         public async Task<IActionResult> Delete(int id)
         {
             var libro = await _context.Libros.FindAsync(id);
@@ -129,6 +137,7 @@ namespace bibliotecaMVC.Controllers
         // POST: Libros/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = Roles.GestionLibros)]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var libro = await _context.Libros.FindAsync(id);

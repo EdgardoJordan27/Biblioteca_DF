@@ -37,6 +37,9 @@ builder.Services.AddScoped<ICategoriaService, CategoriaService>();
 
 var app = builder.Build();
 
+// Crear roles y usuarios iniciales al arrancar
+await RolesInitializer.InicializarAsync(app.Services);
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {

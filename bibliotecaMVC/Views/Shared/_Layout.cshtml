@@ -49,13 +49,27 @@
                             </a>
                         </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark"
-                               asp-controller="Libros"
-                               asp-action="Index">
-                                Libros
-                            </a>
-                        </li>
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark"
+                                   asp-controller="Libros"
+                                   asp-action="Index">
+                                    Libros
+                                </a>
+                            </li>
+                        }
+
+                        @if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Bibliotecario))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark"
+                                   asp-controller="Libros"
+                                   asp-action="Create">
+                                    Agregar libro
+                                </a>
+                            </li>
+                        }
 
                         <li class="nav-item">
                             <a class="nav-link text-dark"
@@ -103,7 +117,21 @@
                         @if (User.Identity?.IsAuthenticated == true)
                         {
                             <li class="nav-item">
-                                <span class="navbar-text me-sm-3">Hola, @User.Identity.Name</span>
+                                <span class="navbar-text me-sm-3">
+                                    Hola, @User.Identity.Name
+                                    @if (User.IsInRole(Roles.Admin))
+                                    {
+                                        <span class="badge bg-secondary ms-1">Admin</span>
+                                    }
+                                    else if (User.IsInRole(Roles.Bibliotecario))
+                                    {
+                                        <span class="badge bg-secondary ms-1">Bibliotecario</span>
+                                    }
+                                    else if (User.IsInRole(Roles.Usuario))
+                                    {
+                                        <span class="badge bg-secondary ms-1">Usuario</span>
+                                    }
+                                </span>
                             </li>
                             <li class="nav-item">
                                 <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">

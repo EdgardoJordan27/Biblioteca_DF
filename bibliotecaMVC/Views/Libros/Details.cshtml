@@ -3,6 +3,7 @@
 
 @{
     ViewData["Title"] = "Detalle del Libro";
+    var puedeGestionar = User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Bibliotecario);
 }
 
 <div class="container mt-4">
@@ -29,6 +30,11 @@
 
         <div class="mt-3">
             <a asp-action="Index" class="btn btn-outline-primary">Volver al listado</a>
+            @if (puedeGestionar)
+            {
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-primary">Editar</a>
+                <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-danger">Eliminar</a>
+            }
         </div>
     </div>
 </div>

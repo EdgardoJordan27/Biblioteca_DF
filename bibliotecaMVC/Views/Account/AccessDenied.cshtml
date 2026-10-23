@@ -1,0 +1,18 @@
+@{
+    ViewData["Title"] = "Acceso denegado";
+}
+
+<div class="auth-wrapper">
+    <div class="auth-card">
+        <h2 class="catalog-heading auth-title">Acceso denegado</h2>
+        <p class="auth-subtitle">
+            Tu cuenta no tiene permiso para realizar esta operación.
+            Si crees que es un error, consulta con un administrador.
+        </p>
+
+        <div class="d-flex gap-2">
+            <a asp-controller="Libros" asp-action="Index" class="btn btn-primary">Volver al catálogo</a>
+            <a asp-controller="Home" asp-action="Index" class="btn btn-outline-primary">Ir al inicio</a>
+        </div>
+    </div>
+</div>

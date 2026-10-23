@@ -3,13 +3,17 @@
 
 @{
     ViewData["Title"] = "Lista de Libros";
+    var puedeGestionar = User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Bibliotecario);
 }
 
 <div class="container mt-4">
 
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="catalog-heading">Catálogo de Libros</h2>
-        <a asp-action="Create" class="btn btn-primary">Agregar libro</a>
+        @if (puedeGestionar)
+        {
+            <a asp-action="Create" class="btn btn-primary">Agregar libro</a>
+        }
     </div>
 
     <div class="catalog-list">
@@ -40,8 +44,11 @@
 
                     <div class="catalog-actions">
                         <a asp-action="Details" asp-route-id="@libro.Id">Ver</a>
-                        <a asp-action="Edit" asp-route-id="@libro.Id" class="action-edit">Editar</a>
-                        <a asp-action="Delete" asp-route-id="@libro.Id" class="action-delete">Eliminar</a>
+                        @if (puedeGestionar)
+                        {
+                            <a asp-action="Edit" asp-route-id="@libro.Id" class="action-edit">Editar</a>
+                            <a asp-action="Delete" asp-route-id="@libro.Id" class="action-delete">Eliminar</a>
+                        }
                     </div>
                 </div>
             </div>

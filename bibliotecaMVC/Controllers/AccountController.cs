@@ -83,6 +83,9 @@ namespace bibliotecaMVC.Controllers
 
             if (resultado.Succeeded)
             {
+                // Todo usuario nuevo entra con el rol Usuario
+                await _userManager.AddToRoleAsync(usuario, Roles.Usuario);
+
                 TempData["Registro"] = "Cuenta creada correctamente. Ya puedes iniciar sesión.";
                 return RedirectToAction(nameof(Login));
             }
@@ -103,9 +106,10 @@ namespace bibliotecaMVC.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public IActionResult AccessDenied()
+        public IActionResult AccessDenied(string? returnUrl = null)
         {
-            return RedirectToAction(nameof(Login));
+            Response.StatusCode = StatusCodes.Status403Forbidden;
+            return View();
         }
 
         private IActionResult RedirectToLocal(string? returnUrl)
