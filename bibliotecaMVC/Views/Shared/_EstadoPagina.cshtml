@@ -1,0 +1,55 @@
+@model bibliotecaMVC.Models.EstadoPaginaViewModel
+
+<section class="estado-wrapper">
+    <div class="estado-card estado-@Model.Tono">
+        <div class="estado-icono" aria-hidden="true">
+            @switch (Model.Icono)
+            {
+                case "candado":
+                    <svg viewBox="0 0 64 64" width="64" height="64" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="14" y="28" width="36" height="26" rx="4" />
+                        <path d="M22 28v-8a10 10 0 0 1 20 0v8" />
+                        <circle cx="32" cy="41" r="3" />
+                        <path d="M32 44v5" />
+                    </svg>
+                    break;
+                case "libro":
+                    <svg viewBox="0 0 64 64" width="64" height="64" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M8 12h18a6 6 0 0 1 6 6v34a5 5 0 0 0-5-5H8z" />
+                        <path d="M56 12H38a6 6 0 0 0-6 6v34a5 5 0 0 1 5-5h19z" />
+                        <path d="M40 24l8 8M48 24l-8 8" />
+                    </svg>
+                    break;
+                default:
+                    <svg viewBox="0 0 64 64" width="64" height="64" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M32 8L58 54H6z" />
+                        <path d="M32 26v14" />
+                        <circle cx="32" cy="47" r="1.5" fill="currentColor" />
+                    </svg>
+                    break;
+            }
+        </div>
+
+        <p class="estado-codigo">@Model.Codigo</p>
+        <h1 class="catalog-heading estado-titulo">@Model.Titulo</h1>
+        <p class="estado-mensaje">@Model.Mensaje</p>
+
+        @if (!string.IsNullOrEmpty(Model.Referencia))
+        {
+            <p class="estado-referencia">Código de referencia: <code>@Model.Referencia</code></p>
+        }
+
+        <div class="estado-acciones">
+            <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Ir al inicio</a>
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <a asp-controller="Libros" asp-action="Index" class="btn btn-outline-primary">Ver catálogo</a>
+            }
+            else
+            {
+                <a asp-controller="Account" asp-action="Login" class="btn btn-outline-primary">Iniciar sesión</a>
+            }
+            <a asp-controller="Categorias" asp-action="Index" class="btn btn-link estado-enlace">Categorías</a>
+        </div>
+    </div>
+</section>

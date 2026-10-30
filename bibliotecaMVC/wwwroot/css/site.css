@@ -587,3 +587,94 @@ a {
     font-size: 0.925rem;
 }
 
+
+/* Paginas de estado: error, acceso denegado y no encontrado */
+.estado-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 2.5rem 0 3.5rem;
+}
+
+.estado-card {
+    --estado-color: var(--lib-primary);
+    --estado-subtle: var(--lib-primary-subtle);
+    width: 100%;
+    max-width: 560px;
+    text-align: center;
+    background-color: var(--lib-paper-alt);
+    border: 1px solid var(--lib-border);
+    border-top: 4px solid var(--estado-color);
+    padding: 2.5rem 2rem;
+    box-shadow: 0 0.35rem 1rem rgba(46, 42, 38, 0.08);
+}
+
+.estado-error {
+    --estado-color: var(--lib-terracotta);
+    --estado-subtle: var(--lib-terracotta-subtle);
+}
+
+.estado-aviso {
+    --estado-color: var(--lib-accent-dark);
+    --estado-subtle: var(--lib-accent-subtle);
+}
+
+.estado-permiso {
+    --estado-color: var(--lib-primary);
+    --estado-subtle: var(--lib-primary-subtle);
+}
+
+.estado-icono {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 104px;
+    height: 104px;
+    border-radius: 50%;
+    background-color: var(--estado-subtle);
+    color: var(--estado-color);
+    margin-bottom: 1rem;
+}
+
+.estado-codigo {
+    margin: 0;
+    font-family: "Fraunces", serif;
+    font-size: 3.5rem;
+    line-height: 1;
+    font-weight: 600;
+    color: var(--estado-color);
+}
+
+.estado-titulo {
+    margin: 0.5rem 0 0.75rem;
+}
+
+.estado-mensaje {
+    color: #6b6259;
+    margin-bottom: 1.25rem;
+}
+
+.estado-referencia {
+    font-size: 0.85rem;
+    color: #6b6259;
+}
+
+.estado-acciones {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+}
+
+.estado-enlace {
+    color: var(--lib-primary);
+}
+
+.app-alert-error {
+    margin: 0 0 1.25rem;
+    padding: 0.7rem 1rem;
+    font-size: 0.925rem;
+    background-color: var(--lib-terracotta-subtle);
+    border-left: 4px solid var(--lib-terracotta);
+    color: var(--lib-terracotta);
+}

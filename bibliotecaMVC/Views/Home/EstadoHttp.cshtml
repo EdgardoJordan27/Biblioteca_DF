@@ -1,0 +1,18 @@
+@{
+    int codigo = ViewData["Codigo"] is int c ? c : 404;
+    bool noEncontrada = codigo == 404;
+    ViewData["Title"] = noEncontrada ? "Página no encontrada" : "Solicitud no disponible";
+
+    var estado = new EstadoPaginaViewModel
+    {
+        Codigo = codigo.ToString(),
+        Titulo = noEncontrada ? "No encontramos lo que buscabas" : "No pudimos completar la solicitud",
+        Mensaje = noEncontrada
+            ? "La página o el registro que intentas abrir no existe o fue eliminado. Revisa la dirección o regresa al catálogo."
+            : "No fue posible atender esta solicitud. Regresa al inicio e intenta de nuevo.",
+        Icono = "libro",
+        Tono = "aviso"
+    };
+}
+
+<partial name="_EstadoPagina" model="estado" />

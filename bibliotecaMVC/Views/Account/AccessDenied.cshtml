@@ -1,18 +1,14 @@
 @{
     ViewData["Title"] = "Acceso denegado";
+
+    var estado = new EstadoPaginaViewModel
+    {
+        Codigo = "403",
+        Titulo = "No tienes permiso para entrar aquí",
+        Mensaje = "Tu cuenta no tiene los permisos necesarios para realizar esta operación. Si crees que es un error, consulta con un administrador.",
+        Icono = "candado",
+        Tono = "permiso"
+    };
 }
 
-<div class="auth-wrapper">
-    <div class="auth-card">
-        <h2 class="catalog-heading auth-title">Acceso denegado</h2>
-        <p class="auth-subtitle">
-            Tu cuenta no tiene permiso para realizar esta operación.
-            Si crees que es un error, consulta con un administrador.
-        </p>
-
-        <div class="d-flex gap-2">
-            <a asp-controller="Libros" asp-action="Index" class="btn btn-primary">Volver al catálogo</a>
-            <a asp-controller="Home" asp-action="Index" class="btn btn-outline-primary">Ir al inicio</a>
-        </div>
-    </div>
-</div>
+<partial name="_EstadoPagina" model="estado" />

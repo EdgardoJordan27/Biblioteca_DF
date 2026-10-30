@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -158,6 +158,10 @@
 
     <div class="container">
         <main role="main" class="pb-3">
+            @if (TempData["Error"] is string mensajeError)
+            {
+                <div class="app-alert-error" role="alert">@mensajeError</div>
+            }
             @RenderBody()
         </main>
     </div>

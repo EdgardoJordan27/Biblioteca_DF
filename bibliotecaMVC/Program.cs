@@ -41,11 +41,23 @@ var app = builder.Build();
 await RolesInitializer.InicializarAsync(app.Services);
 
 // Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+// En desarrollo se puede activar la pagina de error personalizada con
+// "PaginaErrorPersonalizada": true en appsettings.Development.json
+bool usarPaginaError = !app.Environment.IsDevelopment()
+    || app.Configuration.GetValue<bool>("PaginaErrorPersonalizada");
+
+if (usarPaginaError)
 {
     app.UseExceptionHandler("/Home/Error");
+}
+
+if (!app.Environment.IsDevelopment())
+{
     app.UseHsts();
 }
+
+// Paginas amigables para 404 y otros codigos sin cuerpo (el 403 lo maneja AccessDeniedPath)
+app.UseStatusCodePagesWithReExecute("/Home/EstadoHttp", "?codigo={0}");
 
 app.UseHttpsRedirection();
 app.UseRouting();
