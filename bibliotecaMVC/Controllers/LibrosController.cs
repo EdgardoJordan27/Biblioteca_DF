@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using bibliotecaMVC.Models;
-using bibliotecaMVC.Data;
+using bibliotecaMVC.Services;
 using System.IO;
 using System.Threading.Tasks;
 using System;
@@ -16,13 +16,13 @@ namespace bibliotecaMVC.Controllers
     public class LibrosController : Controller
     {
         private readonly IWebHostEnvironment _entorno;
-        private readonly BibliotecaContext _context;
+        private readonly ILibroService _libroService;
         private readonly ILogger<LibrosController> _logger;
 
-        public LibrosController(IWebHostEnvironment entorno, BibliotecaContext context, ILogger<LibrosController> logger)
+        public LibrosController(IWebHostEnvironment entorno, ILibroService libroService, ILogger<LibrosController> logger)
         {
             _entorno = entorno;
-            _context = context;
+            _libroService = libroService;
             _logger = logger;
         }
 
@@ -30,7 +30,7 @@ namespace bibliotecaMVC.Controllers
         public async Task<IActionResult> Index()
         {
             _logger.LogInformation("Consulta del listado de libros por {Usuario}", User.Identity?.Name);
-            var libros = await _context.Libros.ToListAsync();
+            var libros = await _libroService.ObtenerTodosAsync();
             return View(libros);
         }
 
@@ -38,7 +38,7 @@ namespace bibliotecaMVC.Controllers
         public async Task<IActionResult> Details(int id)
         {
             _logger.LogInformation("Consulta del detalle del libro {LibroId}", id);
-            var libro = await _context.Libros.FindAsync(id);
+            var libro = await _libroService.ObtenerPorIdAsync(id);
             if (libro == null)
             {
                 _logger.LogWarning("Detalle solicitado de un libro inexistente (Id {LibroId})", id);
@@ -76,8 +76,7 @@ namespace bibliotecaMVC.Controllers
                     libro.ImagenNombre = await GuardarImagenAsync(Imagen);
                 }
 
-                _context.Libros.Add(libro);
-                await _context.SaveChangesAsync();
+                await _libroService.AgregarAsync(libro);
             }
             catch (Exception ex) when (ex is DbUpdateException || ex is IOException)
             {
@@ -95,7 +94,7 @@ namespace bibliotecaMVC.Controllers
         public async Task<IActionResult> Edit(int id)
         {
             _logger.LogInformation("Apertura del formulario para editar el libro {LibroId}", id);
-            var libro = await _context.Libros.FindAsync(id);
+            var libro = await _libroService.ObtenerPorIdAsync(id);
             if (libro == null)
             {
                 _logger.LogWarning("Edición solicitada de un libro inexistente (Id {LibroId})", id);
@@ -124,29 +123,28 @@ namespace bibliotecaMVC.Controllers
                 return View(libroEditado);
             }
 
-            var libro = await _context.Libros.FindAsync(id);
-            if (libro == null)
+            // Se confirma que el libro existe antes de guardar una imagen en disco
+            var existente = await _libroService.ObtenerPorIdAsync(id);
+            if (existente == null)
             {
                 _logger.LogWarning("Edición de un libro inexistente (Id {LibroId})", id);
                 return NotFound();
             }
 
-            libro.Titulo = libroEditado.Titulo;
-            libro.Autor = libroEditado.Autor;
-            libro.Genero = libroEditado.Genero;
-            libro.AnioPublicacion = libroEditado.AnioPublicacion;
-            libro.Disponible = libroEditado.Disponible;
-
             try
             {
-                // Solo se reemplaza la imagen si el usuario sube una nueva
+                string? nuevaImagen = null;
                 if (Imagen != null && Imagen.Length > 0)
                 {
-                    libro.ImagenNombre = await GuardarImagenAsync(Imagen);
+                    nuevaImagen = await GuardarImagenAsync(Imagen);
                 }
 
-                _context.Libros.Update(libro);
-                await _context.SaveChangesAsync();
+                var actualizado = await _libroService.ActualizarAsync(libroEditado, nuevaImagen);
+                if (!actualizado)
+                {
+                    _logger.LogWarning("Edición de un libro inexistente (Id {LibroId})", id);
+                    return NotFound();
+                }
             }
             catch (Exception ex) when (ex is DbUpdateException || ex is IOException)
             {
@@ -164,7 +162,7 @@ namespace bibliotecaMVC.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             _logger.LogInformation("Apertura de la confirmación para eliminar el libro {LibroId}", id);
-            var libro = await _context.Libros.FindAsync(id);
+            var libro = await _libroService.ObtenerPorIdAsync(id);
             if (libro == null)
             {
                 _logger.LogWarning("Eliminación solicitada de un libro inexistente (Id {LibroId})", id);
@@ -181,17 +179,14 @@ namespace bibliotecaMVC.Controllers
         {
             _logger.LogInformation("Inicio de eliminación del libro {LibroId} por {Usuario}", id, User.Identity?.Name);
 
-            var libro = await _context.Libros.FindAsync(id);
-            if (libro == null)
-            {
-                _logger.LogWarning("Se intentó eliminar un libro que ya no existe (Id {LibroId})", id);
-                return RedirectToAction(nameof(Index));
-            }
-
             try
             {
-                _context.Libros.Remove(libro);
-                await _context.SaveChangesAsync();
+                var eliminado = await _libroService.EliminarAsync(id);
+                if (!eliminado)
+                {
+                    _logger.LogWarning("Se intentó eliminar un libro que ya no existe (Id {LibroId})", id);
+                    return RedirectToAction(nameof(Index));
+                }
             }
             catch (DbUpdateException ex)
             {
