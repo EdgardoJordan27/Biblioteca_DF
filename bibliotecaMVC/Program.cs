@@ -2,6 +2,10 @@ using bibliotecaMVC.Services;
 using Microsoft.EntityFrameworkCore;
 using bibliotecaMVC.Data;
 using Microsoft.AspNetCore.Identity;
+using QuestPDF.Infrastructure;
+
+// Licencia Community de QuestPDF (gratuita para estudiantes y organizaciones pequeñas)
+QuestPDF.Settings.License = LicenseType.Community;
 
 var builder = WebApplication.CreateBuilder(args);
 

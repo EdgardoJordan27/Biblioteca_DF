@@ -1,0 +1,90 @@
+@using bibliotecaMVC.Models
+@model ReportesViewModel
+
+@{
+    ViewData["Title"] = "Reportes de Libros";
+}
+
+<div class="container mt-4">
+
+    <div class="mb-4">
+        <h2 class="catalog-heading">Reportes de Libros</h2>
+        <p class="text-muted mb-0">Consulta los libros registrados y descarga el reporte en PDF o Excel. Los filtros aplican a ambos formatos.</p>
+    </div>
+
+    <form method="get" asp-action="Index" class="row g-3 align-items-end mb-4">
+        <div class="col-md-4">
+            <label for="autor" class="form-label">Autor</label>
+            <select id="autor" name="autor" class="form-select">
+                <option value="">Todos</option>
+                @foreach (var autor in Model.Autores)
+                {
+                    <option value="@autor" selected="@(autor == Model.Autor)">@autor</option>
+                }
+            </select>
+        </div>
+
+        <div class="col-md-4">
+            <label for="categoria" class="form-label">Categoría</label>
+            <select id="categoria" name="categoria" class="form-select">
+                <option value="">Todas</option>
+                @foreach (var categoria in Model.Categorias)
+                {
+                    <option value="@categoria" selected="@(categoria == Model.Categoria)">@categoria</option>
+                }
+            </select>
+        </div>
+
+        <div class="col-md-4 d-flex flex-wrap gap-2">
+            <button type="submit" class="btn btn-outline-primary">Filtrar</button>
+            <button type="submit" class="btn btn-primary" formaction="@Url.Action("GenerarPdf", "Reportes")">Generar reporte PDF</button>
+            <button type="submit" class="btn btn-outline-secondary" formaction="@Url.Action("ExportarExcel", "Reportes")">Exportar a Excel</button>
+        </div>
+    </form>
+
+    @{
+        int disponibles = Model.Libros.Count(l => l.Disponible);
+    }
+
+    <p class="mb-2">
+        <strong>Total de libros:</strong> @Model.Libros.Count
+        &nbsp;&nbsp;<strong>Disponibles:</strong> @disponibles
+        &nbsp;&nbsp;<strong>No disponibles:</strong> @(Model.Libros.Count - disponibles)
+    </p>
+
+    @if (Model.Libros.Count == 0)
+    {
+        <p class="text-muted">No hay libros que coincidan con los filtros seleccionados.</p>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-sm table-striped align-middle">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Libro</th>
+                        <th>Autor</th>
+                        <th>Categoría</th>
+                        <th>Año</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var libro in Model.Libros)
+                    {
+                        <tr>
+                            <td>@libro.Id</td>
+                            <td>@libro.Titulo</td>
+                            <td>@libro.Autor</td>
+                            <td>@libro.Genero</td>
+                            <td>@libro.AnioPublicacion</td>
+                            <td>@(libro.Disponible ? "Disponible" : "No disponible")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+
+</div>
